@@ -17,19 +17,19 @@ namespace Timezone
         {
             List<Tuple<string, string>> lReturn = new List<Tuple<string, string>>();
 
-            string[] fileParts = File.ReadAllText(@timeZoneFileLocation).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var fileRows = File.ReadAllLines(timeZoneFileLocation);
 
-            foreach (string part in fileParts)
+            for (int i = 0; i < fileRows.Length; i++)
             {
-                string[] sLineParts = part.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-                Tuple<string, string> timeZone = new Tuple<string, string>(sLineParts.First(), sLineParts.Last());
-
+                string currentRow = fileRows[i];
+                string[] columnValues = currentRow.Split(' ');
+                Tuple<string, string> timeZone = new Tuple<string, string>(columnValues[0], columnValues[1]);
                 lReturn.Add(timeZone);
             }
 
             return lReturn;
         }
+
         public void Dispose()
         {
         }
